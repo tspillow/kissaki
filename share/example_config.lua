@@ -61,6 +61,9 @@ return {
 	-- basic layout:
 	-- packages = 	{ "git", "fastfetch" },
 	packages = 	{},
+	-- not only you can install normal packages, but we have AUR
+	-- support. This only works if you have yay installed.
+	aur =		{},
 	-- enable services, like you do with packages;
 	-- basic layout:
 	-- services = 	{ "NetworkManager", "powerprofilesdaemon" },
