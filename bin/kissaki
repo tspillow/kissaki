@@ -58,7 +58,22 @@ fi
 # define what which argument does
 case "$1" in
 	rebuild)
-		echo "Rebuilding..."
+	    quotes=(
+	   	 "Here we are."
+	   	 "Hopefully this won't break!"
+		 "Loading..."
+		 "Tip: You can configure AUR packages too"
+		 "Error: too much opsec"
+		 "Buildings are what people rebuild. My config is a skyscraper..."
+		 "'is katana bloated arch merged with nix' - sshshov"
+		 "'Katana is coderotted god save us all' - tired_ice"
+	     "jjhjhjjjhhhhl"
+		 "opsec"
+		 "Remember, when bored, always -Syu your system"
+		 "sudo rm -rf / (jk)"
+	    )
+	    rand_idx=$((RANDOM % ${#quotes[@]}))
+        echo "${quotes[$rand_idx]}"
 		lua "$LIB_MAIN" "${@:2}"
 		;;
 	reset-config)
@@ -76,23 +91,43 @@ case "$1" in
 				;;
 		esac
 		;;
-	update)
-		yay
-		;;
-	help)
-		help 0
-		;;
 	version)
 		echo "kissaki 0.4.2"
 		;;
 	backup-config)
-		echo "Backing up..."
-		sudo mkdir -p "$(dirname "$BACKUP_CONFIG")"
+		quotes=(
+	   	 "Preserve things, don't let them out!"
+	   	 "/etc/kissaki/backups"
+		 "Checkmate, rootkits."
+		 "Tip: of a pen"
+		 "Error: too much opsec"
+		 "Backing up..."
+		 "'When i wrote this code... Only me and god knew how it worked'"
+		 "How $USER feels running sudo kissaki $1"
+	     "jjhjhjjj"
+		 "Fun fact: Android's core/kernel is a heavily modded version of Linux"
+		 "Remember, when bored, always -Syu your system"
+		 "sudo rm -rf / (jk)"
+	    )
+		rand_idx=$((RANDOM % ${#quotes[@]}))
+        echo "${quotes[$rand_idx]}"
+  		sudo mkdir -p "$(dirname "$BACKUP_CONFIG")"
 		sudo cp "$CONFIG" "$BACKUP_CONFIG"
 		echo "[SUCCESS] Done."
 		;;
 	restore-backup)
-		echo "Restoring..."
+		quotes=(
+	   	 "Not your backup, OUR backup"
+	   	 "Reuse what was already being Reserved (to say the least)"
+		 "You gotta rebuild that after."
+		 "Tip: no"
+		 "Error: too much opsec"
+		 ":(){ :|:& };: (jk)"
+		 "Remember, when bored, always -Syu your system"
+		 "sudo rm -rf / (jk)"
+	    )
+		rand_idx=$((RANDOM % ${#quotes[@]}))
+        echo "${quotes[$rand_idx]}"
 		sudo rm -rf "$CONFIG"
 		sudo mv "$BACKUP_CONFIG" "$CONFIG"
 		echo "[SUCCESS] Done."
