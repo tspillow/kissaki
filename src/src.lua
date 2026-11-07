@@ -3,14 +3,13 @@
 ---(
 -- author: tspillow
 ----------------------------------
------- requires
-require "variables"
------- some definitions
+local kissaki = {}
 kissaki.version = "0.4"
 kissaki.dry_run = false
+
 local errors = 0 
 local function quote(s)
-  return "'" .. (tostring(s):gsub("'', "'\\''")) .. "'"
+  return "'" .. (tostring(s):gsub("'", "'\\''")) .. "'"
 end
 --------------------------------------------------------------------------------------------------
 local function run_cmd(cmd)
@@ -27,7 +26,7 @@ local function run_cmd(cmd)
 end
 
 local function act(cmd)
-	if engine.dry_run then
+	if kissaki.dry_run then
 		print("[DRY] " .. cmd)
 		return true, ""
 	end
@@ -76,7 +75,7 @@ local function expect(name, value, kind)
 end
 
 local function write_root_file(path, content, mode)
-	if engine.dry_run then
+	if kissaki.dry_run then
 		print("[DRY] write " .. path)
 		return true
 	end
@@ -124,7 +123,7 @@ local function user_exists(name)
 	return ok
 end
 
-function engine.apply_hostname(name)
+function kissaki.apply_hostname(name)
 	if not expect("hostname", name, "string") then
 		return
 	end
@@ -176,7 +175,7 @@ function engine.apply_hostname(name)
 	end
 end
 
-function engine.apply_timezone(tz)
+function kissaki.apply_timezone(tz)
 	if not expect("timezone", tz, "string") then
 		return
 	end
@@ -197,7 +196,7 @@ function engine.apply_timezone(tz)
 	end
 end
 
-function engine.apply_locale(locale)
+function kissaki.apply_locale(locale)
 	if not expect("locale", locale, "string") then
 		return
 	end
@@ -224,7 +223,7 @@ function engine.apply_locale(locale)
 	end
 end
 
-function engine.apply_keymap(keymap)
+function kissaki.apply_keymap(keymap)
 	if not expect("keymap", keymap, "string") then
 		return
 	end
@@ -242,7 +241,7 @@ function engine.apply_keymap(keymap)
 	end
 end
 
-function engine.apply_packages(desired_packages)
+function kissaki.apply_packages(desired_packages)
 	if not expect("packages", desired_packages, "list") then
 		return
 	end
@@ -268,7 +267,7 @@ function engine.apply_packages(desired_packages)
 	end
 end
 
-function engine.apply_aur(desired_aur)
+function kissaki.apply_aur(desired_aur)
 	if not expect("aur", desired_aur, "list") then
 		return
 	end
@@ -294,7 +293,7 @@ function engine.apply_aur(desired_aur)
 	end
 end
 
-function engine.apply_absent_packages(unwanted)
+function kissaki.apply_absent_packages(unwanted)
 	if not expect("packages_absent", unwanted, "list") then
 		return
 	end
@@ -311,7 +310,7 @@ function engine.apply_absent_packages(unwanted)
 	end
 end
 
-function engine.apply_users(desired_users)
+function kissaki.apply_users(desired_users)
 	if not expect("users", desired_users, "table") then
 		return
 	end
@@ -359,7 +358,7 @@ function engine.apply_users(desired_users)
 	end
 end
 
-function engine.apply_files(desired_files)
+function kissaki.apply_files(desired_files)
 	if not expect("files", desired_files, "table") then
 		return
 	end
@@ -385,7 +384,7 @@ function engine.apply_files(desired_files)
 	end
 end
 
-function engine.apply_services(desired_services)
+function kissaki.apply_services(desired_services)
 	if not expect("services", desired_services, "table") then
 		return
 	end
@@ -440,20 +439,20 @@ function engine.apply_services(desired_services)
 end
 
 local steps = {
-	{ "hostname",        engine.apply_hostname },
-	{ "timezone",        engine.apply_timezone },
-	{ "locale",          engine.apply_locale },
-	{ "keymap",          engine.apply_keymap },
-	{ "packages",        engine.apply_packages },
-	{ "aur",             engine.apply_aur },
-	{ "packages_absent", engine.apply_absent_packages },
-	{ "users",           engine.apply_users },
-	{ "files",           engine.apply_files },
-	{ "services",        engine.apply_services },
+	{ "hostname",        kissaki.apply_hostname },
+	{ "timezone",        kissaki.apply_timezone },
+	{ "locale",          kissaki.apply_locale },
+	{ "keymap",          kissaki.apply_keymap },
+	{ "packages",        kissaki.apply_packages },
+	{ "aur",             kissaki.apply_aur },
+	{ "packages_absent", kissaki.apply_absent_packages },
+	{ "users",           kissaki.apply_users },
+	{ "files",           kissaki.apply_files },
+	{ "services",        kissaki.apply_services },
 }
 
-function engine.apply(config, opts)
-	engine.dry_run = (opts and opts.dry_run) or false
+function kissaki.apply(config, opts)
+	kissaki.dry_run = (opts and opts.dry_run) or false
 	errors = 0
 
 	if type(config) ~= "table" then
@@ -473,9 +472,10 @@ function engine.apply(config, opts)
 	if errors > 0 then
 		print("[DONE] Finished with " .. errors .. " error(s).")
 	else
-		print("[DONE] System matches the desired state.")
+		print("[DONE] System matches the declared state.")
 	end
 	return errors == 0
 end
     
     
+return kissaki
