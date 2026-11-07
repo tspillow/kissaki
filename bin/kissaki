@@ -45,7 +45,7 @@ if [ $EUID -ne 0 ]; then
 	   "Are you kidding me?"
 	   "What do you think?"
 	   "PARRY."
-            "It's like letting a 5 year old play with fire."
+       "It's like letting a 5 year old play with fire."
 	   "I'm afraid you don't know that things like this need permission"
 	   "Good try."
 	   "What is the type of person that uses kissaki $1 without sudo?"
